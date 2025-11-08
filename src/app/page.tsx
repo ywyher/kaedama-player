@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { ChevronDown, Play } from "lucide-react";
+import { toast } from "sonner";
 
 type StreamingData = {
     provider: "hianime";
@@ -109,7 +110,7 @@ const anilistIds = [
 ]
 
 const proxyOptions = [
-  { value: "bettermelon", label: "BetterMelon" },
+  { value: "bettermelon", label: "Bettermelon" },
   { value: "local", label: "Local" },
 ] as const;
 
@@ -143,7 +144,8 @@ export default function Home() {
 		  const thumbnails = streamingData?.episode.sources.tracks.find((t) => t.kind === "thumbnails");
       setThumbnails(thumbnails?.file || "")
     } catch (error) {
-      console.error(error)
+      const msg = error instanceof Error ? error.message : "Something went wrong!"
+      toast.error(msg)
     } finally {
       setIsLoading(false)
     }
